@@ -3,6 +3,7 @@ from functools import lru_cache
 
 from app.settings import settings
 from app.clients.univers import TokenProvider, UniversClient
+from app.clients.agrega import AgregaClient
 
 
 @lru_cache(maxsize=1)
@@ -28,5 +29,14 @@ def get_univers_client() -> UniversClient:
     return UniversClient(
         base_url=settings.univers_base_url,
         token_provider=get_token_provider(),
+        timeout=get_timeout(),
+    )
+
+
+@lru_cache(maxsize=1)
+def get_agrega_client() -> AgregaClient:
+    return AgregaClient(
+        base_url=settings.agrega_base_url,
+        api_key=settings.agrega_api_key,
         timeout=get_timeout(),
     )
