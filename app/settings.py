@@ -22,5 +22,9 @@ class Settings(BaseSettings):
 
     univers_default_store: str = Field(default="DROGASIL", alias="UNIVERS_DEFAULT_STORE")
 
+    # Agrega
+    agrega_base_url: str = Field(alias="AGREGA_BASE_URL")
+    agrega_api_key: str = Field(alias="AGREGA_API_KEY")
+
 
 settings = Settings()
