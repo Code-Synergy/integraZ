@@ -37,12 +37,25 @@ Abra:
 - Ready:  http://127.0.0.1:8000/ready
 - Docs:   http://127.0.0.1:8000/docs
 
+## Rodar com Docker
+```bash
+# Docker Compose (recomendado)
+docker-compose up -d
+
+# Ou Docker direto
+docker build -t integraz-api .
+docker run -p 8000:8000 --env-file .env integraz-api
+```
+
+Ver [DOCKER.md](DOCKER.md) para mais detalhes.
+
 ## Variáveis de ambiente
-Ajuste no `.env`:
 - `UNIVERS_BASE_URL`
 - `UNIVERS_TOKEN_URL`
 - `UNIVERS_CLIENT_ID`
 - `UNIVERS_CLIENT_SECRET`
+- `AGREGA_BASE_URL`
+- `AGREGA_API_KEY`
 
 ## Testes
 ```bash
