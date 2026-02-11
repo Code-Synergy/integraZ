@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=${APP_NAME:-integraz-api}
+      - APP_ENV=${APP_ENV:-production}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - HTTP_TIMEOUT_S=${HTTP_TIMEOUT_S:-20.0}
+      - HTTP_CONNECT_TIMEOUT_S=${HTTP_CONNECT_TIMEOUT_S:-5.0}
+      - UNIVERS_BASE_URL=${UNIVERS_BASE_URL}
+      - UNIVERS_TOKEN_URL=${UNIVERS_TOKEN_URL}
+      - UNIVERS_CLIENT_ID=${UNIVERS_CLIENT_ID}
+      - UNIVERS_CLIENT_SECRET=${UNIVERS_CLIENT_SECRET}
+      - UNIVERS_DEFAULT_STORE=${UNIVERS_DEFAULT_STORE:-DROGASIL}
+      - AGREGA_BASE_URL=${AGREGA_BASE_URL}
+      - AGREGA_API_KEY=${AGREGA_API_KEY}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
