@@ -77,8 +77,8 @@ jobs:
             set -e
             cd /home/deploy/integraz
 
-            echo "APP_TAG=${{ steps.tag.outputs.tag }}" > .env
-            echo "✅ Using APP_TAG=$(cat .env)"
+            echo "APP_TAG=${{ steps.tag.outputs.tag }}" > .env.deploy
+            echo "✅ Using APP_TAG=$(cat .env.deploy)"
 
             echo "${{ secrets.GHCR_TOKEN_DEV }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER_DEV }}" --password-stdin
 
