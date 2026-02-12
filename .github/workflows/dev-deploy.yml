@@ -1,0 +1,87 @@
+name: DEV Manual Tag + Deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/integraz
+
+jobs:
+  tag_build_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Create automatic tag
+        id: tag
+        run: |
+          set -e
+          TAG="dev-$(date -u +%Y%m%d-%H%M%S)"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git tag "$TAG"
+          git push origin "$TAG"
+          echo "✅ Created and pushed tag: $TAG"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USER_DEV }}
+          password: ${{ secrets.GHCR_TOKEN_DEV }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:dev
+            ${{ env.IMAGE }}:${{ steps.tag.outputs.tag }}
+          cache-from: type=registry,ref=${{ env.IMAGE }}:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE }}:buildcache,mode=max
+
+      - name: Copy docker-compose to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST_DEV }}
+          username: ${{ secrets.VPS_USER_DEV }}
+          key: ${{ secrets.VPS_SSH_KEY_DEV }}
+          source: "docker-compose.yml"
+          target: "/home/deploy/integraz/"
+
+      - name: Deploy on VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST_DEV }}
+          username: ${{ secrets.VPS_USER_DEV }}
+          key: ${{ secrets.VPS_SSH_KEY_DEV }}
+          script: |
+            set -e
+            cd /home/deploy/integraz
+
+            echo "APP_TAG=${{ steps.tag.outputs.tag }}" > .env.deploy
+            echo "✅ Using APP_TAG=$(cat .env.deploy)"
+
+            echo "${{ secrets.GHCR_TOKEN_DEV }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER_DEV }}" --password-stdin
+
+            docker compose pull
+            docker compose up -d --force-recreate --pull always --remove-orphans
+            docker compose ps
+
+            echo "==== Running image ===="
+            docker inspect -f '{{.Name}} -> {{.Config.Image}} (id={{.Id}})' integraz-api || true
