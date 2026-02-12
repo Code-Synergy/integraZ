@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   api:
-    build: .
+    image: ghcr.io/code-synergy/integraz:${APP_TAG:-dev}
+    container_name: integraz-api
     ports:
       - "8000:8000"
     environment:
