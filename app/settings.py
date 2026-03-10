@@ -31,5 +31,9 @@ class Settings(BaseSettings):
     stone_base_url: str = Field(alias="STONE_BASE_URL")
     stone_api_key: str = Field(alias="STONE_API_KEY")
 
+    # Benemed
+    benemed_env: str = Field(default="hml", alias="BENEMED_ENV")
+    benemed_partner_id: str = Field(default="157", alias="BENEMED_PARTNER_ID")
+
 
 settings = Settings()
