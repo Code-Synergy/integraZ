@@ -44,5 +44,13 @@ class Settings(BaseSettings):
     sap_supplier_series: str = Field(default="72", alias="SAP_SUPPLIER_SERIES")
     sap_group_code: int = Field(default=106, alias="SAP_GROUP_CODE")
 
+    # MkPlace
+    mkplace_store_id: str = Field(alias="MKPLACE_STORE_ID")
+    mkplace_account_id: str = Field(alias="MKPLACE_ACCOUNT_ID")
+    mkplace_client_id: str = Field(default="customer-services", alias="MKPLACE_CLIENT_ID")
+    mkplace_private_key: str = Field(alias="MKPLACE_PRIVATE_KEY")
+    mkplace_kid: str = Field(alias="MKPLACE_KID")
+    mkplace_api_url: str = Field(alias="MKPLACE_API_URL")
+
 
 settings = Settings()
