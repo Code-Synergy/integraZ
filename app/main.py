@@ -21,6 +21,7 @@ def create_app() -> FastAPI:
     from app.routes.beneficiaries import router as beneficiaries_router
     from app.stone.routes import router as stone_router
     from app.benemed.routes import router as benemed_router
+    from app.sap.routes import router as sap_router
 
     app.include_router(health_router)
     app.include_router(customize_router)
@@ -28,6 +29,7 @@ def create_app() -> FastAPI:
     app.include_router(beneficiaries_router)
     app.include_router(stone_router)
     app.include_router(benemed_router)
+    app.include_router(sap_router)
 
     return app
 

@@ -35,5 +35,14 @@ class Settings(BaseSettings):
     benemed_env: str = Field(default="hml", alias="BENEMED_ENV")
     benemed_partner_id: str = Field(default="157", alias="BENEMED_PARTNER_ID")
 
+    # SAP Business One
+    sap_base_url: str = Field(alias="SAP_BASE_URL")
+    sap_company_db: str = Field(alias="SAP_COMPANY_DB")
+    sap_username: str = Field(alias="SAP_USERNAME")
+    sap_password: str = Field(alias="SAP_PASSWORD")
+    sap_client_series: str = Field(default="71", alias="SAP_CLIENT_SERIES")
+    sap_supplier_series: str = Field(default="72", alias="SAP_SUPPLIER_SERIES")
+    sap_group_code: int = Field(default=106, alias="SAP_GROUP_CODE")
+
 
 settings = Settings()
