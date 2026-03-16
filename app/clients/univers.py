@@ -122,13 +122,103 @@ class UniversClient:
             r = await client.get(url, headers=headers)
 
         if r.status_code >= 400:
-            # Para 5xx, levantamos UpstreamError para permitir retry
             payload = _safe_json(r)
             detail = payload.get("message") or payload.get("detail") or r.text
             err = UpstreamError(r.status_code, f"Upstream error {r.status_code}: {detail}", payload)
             if r.status_code >= 500:
                 raise err
-            # 4xx: não retry por padrão
+            raise err
+
+        return r.json()
+
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=0.5, min=0.5, max=4),
+        retry=retry_if_exception_type((httpx.TransportError, UpstreamError)),
+        reraise=True,
+    )
+    async def create_beneficiary(self, payload: Dict[str, Any], correlation_id: str) -> Dict[str, Any]:
+        url = self._url("/beneficiaries")
+        headers = await self._headers(correlation_id)
+
+        async with httpx.AsyncClient(timeout=self._timeout) as client:
+            r = await client.post(url, json=payload, headers=headers)
+
+        if r.status_code >= 400:
+            payload = _safe_json(r)
+            detail = payload.get("message") or payload.get("detail") or r.text
+            err = UpstreamError(r.status_code, f"Erro ao criar beneficiário: {detail}", payload)
+            if r.status_code >= 500:
+                raise err
+            raise err
+
+        return r.json()
+
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=0.5, min=0.5, max=4),
+        retry=retry_if_exception_type((httpx.TransportError, UpstreamError)),
+        reraise=True,
+    )
+    async def get_beneficiary(self, individual_registration: str, correlation_id: str) -> Dict[str, Any]:
+        url = self._url(f"/beneficiaries/queries?individualRegistration={individual_registration}")
+        headers = await self._headers(correlation_id)
+
+        async with httpx.AsyncClient(timeout=self._timeout) as client:
+            r = await client.get(url, headers=headers)
+
+        if r.status_code >= 400:
+            payload = _safe_json(r)
+            detail = payload.get("message") or payload.get("detail") or r.text
+            err = UpstreamError(r.status_code, f"Erro ao buscar beneficiário: {detail}", payload)
+            if r.status_code >= 500:
+                raise err
+            raise err
+
+        return r.json()
+
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=0.5, min=0.5, max=4),
+        retry=retry_if_exception_type((httpx.TransportError, UpstreamError)),
+        reraise=True,
+    )
+    async def update_beneficiary(self, beneficiary_id: str, payload: Dict[str, Any], correlation_id: str) -> Dict[str, Any]:
+        url = self._url(f"/beneficiaries/{beneficiary_id}")
+        headers = await self._headers(correlation_id)
+
+        async with httpx.AsyncClient(timeout=self._timeout) as client:
+            r = await client.put(url, json=payload, headers=headers)
+
+        if r.status_code >= 400:
+            payload = _safe_json(r)
+            detail = payload.get("message") or payload.get("detail") or r.text
+            err = UpstreamError(r.status_code, f"Erro ao atualizar beneficiário: {detail}", payload)
+            if r.status_code >= 500:
+                raise err
+            raise err
+
+        return r.json()
+
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=0.5, min=0.5, max=4),
+        retry=retry_if_exception_type((httpx.TransportError, UpstreamError)),
+        reraise=True,
+    )
+    async def update_beneficiary_status(self, beneficiary_id: str, payload: Dict[str, Any], correlation_id: str) -> Dict[str, Any]:
+        url = self._url(f"/beneficiaries/{beneficiary_id}/status")
+        headers = await self._headers(correlation_id)
+
+        async with httpx.AsyncClient(timeout=self._timeout) as client:
+            r = await client.patch(url, json=payload, headers=headers)
+
+        if r.status_code >= 400:
+            payload = _safe_json(r)
+            detail = payload.get("message") or payload.get("detail") or r.text
+            err = UpstreamError(r.status_code, f"Erro ao atualizar status: {detail}", payload)
+            if r.status_code >= 500:
+                raise err
             raise err
 
         return r.json()

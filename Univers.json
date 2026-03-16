@@ -1,0 +1,232 @@
+{
+	"info": {
+		"_postman_id": "4faded19-b11f-4c0f-afe0-af128518d08a",
+		"name": "Sensedia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16739818",
+		"_collection_link": "https://red-star-656235.postman.co/workspace/My-Workspace~1290bab0-e483-4673-8ee3-8e234e9c13d3/collection/16739818-4faded19-b11f-4c0f-afe0-af128518d08a?action=share&source=collection_link&creator=16739818"
+	},
+	"item": [
+		{
+			"name": "access-token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "e2c6bdf5-a2e9-4c78-aa50-7ec5672cae86",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "bfb96a8f-e86d-4916-b5f0-1b0f5b62f35e",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic MDQ4Y2QxMmYtNGNmOC00MzRmLThiMmUtNGU0YzE0OWU3NzljOjM3NTNlMTU0LWU0OGMtNGY4MC04M2M1LWU4YTU4MjA2ZGE2ZQ==",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api-rd.raiadrogasil.io/oauth/v1/access-token",
+					"protocol": "https",
+					"host": [
+						"api-rd",
+						"raiadrogasil",
+						"io"
+					],
+					"path": [
+						"oauth",
+						"v1",
+						"access-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create beneficiary",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer ZTJjNmJkZjUtYTJlOS00Yzc4LWFhNTAtN2VjNTY3MmNhZTg2OjM3YTliYzI4LWI2YWUtNDc2My1iYjFlLWQ2ZDAyMGQ4ZjZmNg==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"individualRegistration\": \"0423\",\n  \"name\": \"Marco Aurélio Siqueira\",\n  \"benefits\": [\n    {\n      \"status\": 1,\n      \"kinshipMode\": 1,\n      \"ownershipMode\": 1,\n      \"operatorContractCodes\": [\n        31903\n      ],\n      \"identificationNumber\": \"1750751000002011\",\n      \"account\": {\n        \"contractLegacyId\": 17001,\n        \"policyLegacyId\": 20021,\n        \"active\": 1,\n        \"limit\": 0.0\n      }\n    }\n  ],\n  \"dependents\": [],\n  \"addresses\": [],\n  \"phones\": []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api-rd-stg.raiadrogasil.io/univers/v1/beneficiaries",
+					"protocol": "https",
+					"host": [
+						"api-rd-stg",
+						"raiadrogasil",
+						"io"
+					],
+					"path": [
+						"univers",
+						"v1",
+						"beneficiaries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get beneficiary",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer ZTJjNmJkZjUtYTJlOS00Yzc4LWFhNTAtN2VjNTY3MmNhZTg2Ojk4MDZmNGYxLTc1ZDItNGMwZS1hMzllLWMxODk2MTU1Mzc5MQ==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api-rd-stg.raiadrogasil.io/univers/v1/beneficiaries/queries?individualRegistration=05455037790",
+					"protocol": "https",
+					"host": [
+						"api-rd-stg",
+						"raiadrogasil",
+						"io"
+					],
+					"path": [
+						"univers",
+						"v1",
+						"beneficiaries",
+						"queries"
+					],
+					"query": [
+						{
+							"key": "individualRegistration",
+							"value": "05455037790"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update beneficiary status",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer ZTJjNmJkZjUtYTJlOS00Yzc4LWFhNTAtN2VjNTY3MmNhZTg2Ojk4MDZmNGYxLTc1ZDItNGMwZS1hMzllLWMxODk2MTU1Mzc5MQ==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"status\": \"TEMPORARY_BLOCKED\",\n  \"policyLegacyId\": 20021,\n  \"contractLegacyId\": 17001,\n  \"blockOperatorCode\": 31903\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api-rd-stg.raiadrogasil.io/univers/v1/beneficiaries/339290647/status",
+					"protocol": "https",
+					"host": [
+						"api-rd-stg",
+						"raiadrogasil",
+						"io"
+					],
+					"path": [
+						"univers",
+						"v1",
+						"beneficiaries",
+						"339290647",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update beneficiary",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer ZTJjNmJkZjUtYTJlOS00Yzc4LWFhNTAtN2VjNTY3MmNhZTg2OjM3YTliYzI4LWI2YWUtNDc2My1iYjFlLWQ2ZDAyMGQ4ZjZmNg==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"individualRegistration\": \"1234\",\n  \"name\": \"Marco Aurelio Siqueira Filho\",\n  \"benefits\": [\n    {\n      \"status\": 1,\n      \"kinshipMode\": 1,\n      \"ownershipMode\": 1,\n      \"operatorContractCodes\": [\n        31903\n      ],\n      \"identificationNumber\": \"1750751000002011\",\n      \"account\": {\n        \"contractLegacyId\": 17001,\n        \"policyLegacyId\": 20021,\n        \"active\": 1,\n        \"limit\": 0.0\n      }\n    }\n  ],\n  \"dependents\": [],\n  \"addresses\": [],\n  \"phones\": []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api-rd-stg.raiadrogasil.io/univers/v1/beneficiaries/68ed1d83c20c6e357e266165",
+					"protocol": "https",
+					"host": [
+						"api-rd-stg",
+						"raiadrogasil",
+						"io"
+					],
+					"path": [
+						"univers",
+						"v1",
+						"beneficiaries",
+						"68ed1d83c20c6e357e266165"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

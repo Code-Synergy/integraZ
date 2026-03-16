@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     # Agrega
     agrega_base_url: str = Field(alias="AGREGA_BASE_URL")
     agrega_api_key: str = Field(alias="AGREGA_API_KEY")
+    agrega_id_plataforma: str = Field(default="sandbox", alias="AGREGA_ID_PLATAFORMA")
 
 
 settings = Settings()
