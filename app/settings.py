@@ -27,5 +27,13 @@ class Settings(BaseSettings):
     agrega_api_key: str = Field(alias="AGREGA_API_KEY")
     agrega_id_plataforma: str = Field(default="sandbox", alias="AGREGA_ID_PLATAFORMA")
 
+    # Stone Partner Hub
+    stone_base_url: str = Field(alias="STONE_BASE_URL")
+    stone_api_key: str = Field(alias="STONE_API_KEY")
+
+    # Benemed
+    benemed_env: str = Field(default="hml", alias="BENEMED_ENV")
+    benemed_partner_id: str = Field(default="157", alias="BENEMED_PARTNER_ID")
+
 
 settings = Settings()
