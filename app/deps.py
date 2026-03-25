@@ -40,11 +40,3 @@ def get_agrega_client() -> AgregaClient:
         timeout=get_timeout(),
     )
 
-
-@lru_cache(maxsize=1)
-def get__client() -> Client:
-    return Client(
-        base_url=settings._base_url,
-        api_key=settings._api_key,
-        timeout=get_timeout(),
-    )

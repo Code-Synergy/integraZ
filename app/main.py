@@ -25,7 +25,6 @@ def create_app() -> FastAPI:
     app.include_router(customize_router)
     app.include_router(agrega_router)
     app.include_router(beneficiaries_router)
-    app.include_router(_router)
     app.include_router(benemed_router)
 
     return app
