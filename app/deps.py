@@ -4,8 +4,6 @@ from functools import lru_cache
 from app.settings import settings
 from app.clients.univers import TokenProvider, UniversClient
 from app.clients.agrega import AgregaClient
-from app.clients. import Client
-
 
 @lru_cache(maxsize=1)
 def get_timeout() -> httpx.Timeout:

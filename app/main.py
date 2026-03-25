@@ -19,7 +19,6 @@ def create_app() -> FastAPI:
     from app.routes.customize import router as customize_router
     from app.routes.agrega import router as agrega_router
     from app.routes.beneficiaries import router as beneficiaries_router
-    from app..routes import router as _router
     from app.benemed.routes import router as benemed_router
 
     app.include_router(health_router)

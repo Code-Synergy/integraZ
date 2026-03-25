@@ -27,9 +27,6 @@ class Settings(BaseSettings):
     agrega_api_key: str = Field(alias="AGREGA_API_KEY")
     agrega_id_plataforma: str = Field(default="sandbox", alias="AGREGA_ID_PLATAFORMA")
 
-    #  Partner Hub
-    _base_url: str = Field(alias="_BASE_URL")
-    _api_key: str = Field(alias="_API_KEY")
 
     # Benemed
     benemed_env: str = Field(default="hml", alias="BENEMED_ENV")
