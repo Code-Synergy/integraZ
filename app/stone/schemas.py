@@ -43,7 +43,7 @@ class CreateMerchantRequest(BaseModel):
 
 # Response Models
 class MerchantResponse(BaseModel):
-    stone_code: str = Field(alias="stoneCode")
+    _code: str = Field(alias="Code")
     status: str
     company: Optional[MerchantCompany] = None
     address: Optional[MerchantAddress] = None

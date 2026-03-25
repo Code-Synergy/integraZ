@@ -1,1 +1,1 @@
-# Stone Integration Module
+#  Integration Module

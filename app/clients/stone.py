@@ -8,7 +8,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 log = structlog.get_logger()
 
 
-class StoneError(Exception):
+class Error(Exception):
     def __init__(self, status_code: int, detail: str, payload: dict | None = None):
         self.status_code = status_code
         self.detail = detail
@@ -16,7 +16,7 @@ class StoneError(Exception):
         super().__init__(detail)
 
 
-class StoneClient:
+class Client:
     def __init__(self, base_url: str, api_key: str, timeout: httpx.Timeout):
         self._base_url = base_url.rstrip("/")
         self._api_key = api_key
@@ -42,7 +42,7 @@ class StoneClient:
     ) -> Dict[str, Any]:
         """
         Cria um novo lojista (merchant) no Partner Hub.
-        Retorna o StoneCode em caso de sucesso.
+        Retorna o Code em caso de sucesso.
         """
         url = f"{self._base_url}/merchants"
         headers = self._headers(correlation_id)
@@ -56,7 +56,7 @@ class StoneClient:
                 detail = r.json().get("detail") or r.json().get("message") or r.text
             except Exception:
                 pass
-            raise StoneError(r.status_code, f"Erro ao criar lojista: {detail}", self._safe_json(r))
+            raise Error(r.status_code, f"Erro ao criar lojista: {detail}", self._safe_json(r))
 
         return self._safe_json(r)
 
@@ -88,7 +88,7 @@ class StoneClient:
                 detail = r.json().get("detail") or r.json().get("message") or r.text
             except Exception:
                 pass
-            raise StoneError(r.status_code, f"Erro ao listar lojistas: {detail}", self._safe_json(r))
+            raise Error(r.status_code, f"Erro ao listar lojistas: {detail}", self._safe_json(r))
 
         return self._safe_json(r)
 
@@ -100,13 +100,13 @@ class StoneClient:
     )
     async def get_merchant_details(
         self,
-        stone_code: str,
+        _code: str,
         correlation_id: str,
     ) -> Dict[str, Any]:
         """
-        Obtém detalhes de um lojista específico pelo StoneCode.
+        Obtém detalhes de um lojista específico pelo Code.
         """
-        url = f"{self._base_url}/merchants/{stone_code}"
+        url = f"{self._base_url}/merchants/{_code}"
         headers = self._headers(correlation_id)
 
         async with httpx.AsyncClient(timeout=self._timeout) as client:
@@ -118,7 +118,7 @@ class StoneClient:
                 detail = r.json().get("detail") or r.json().get("message") or r.text
             except Exception:
                 pass
-            raise StoneError(r.status_code, f"Erro ao obter detalhes do lojista: {detail}", self._safe_json(r))
+            raise Error(r.status_code, f"Erro ao obter detalhes do lojista: {detail}", self._safe_json(r))
 
         return self._safe_json(r)
 

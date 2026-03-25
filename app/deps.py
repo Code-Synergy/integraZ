@@ -4,7 +4,7 @@ from functools import lru_cache
 from app.settings import settings
 from app.clients.univers import TokenProvider, UniversClient
 from app.clients.agrega import AgregaClient
-from app.clients.stone import StoneClient
+from app.clients. import Client
 
 
 @lru_cache(maxsize=1)
@@ -44,9 +44,9 @@ def get_agrega_client() -> AgregaClient:
 
 
 @lru_cache(maxsize=1)
-def get_stone_client() -> StoneClient:
-    return StoneClient(
-        base_url=settings.stone_base_url,
-        api_key=settings.stone_api_key,
+def get__client() -> Client:
+    return Client(
+        base_url=settings._base_url,
+        api_key=settings._api_key,
         timeout=get_timeout(),
     )

@@ -1,17 +1,17 @@
-# Integração Stone Partner Hub
+# Integração  Partner Hub
 
-## Informações necessárias para solicitar à Stone
+## Informações necessárias para solicitar à 
 
-Para viabilizar a implementação da integração com o Partner Hub da Stone, você precisará solicitar as seguintes informações:
+Para viabilizar a implementação da integração com o Partner Hub da , você precisará solicitar as seguintes informações:
 
 ### 1. Credenciais de Acesso (OBRIGATÓRIO)
 - **API Key / Bearer Token**: Token de autenticação para acessar a API Partner Hub
 - **Ambiente**: 
-  - URL base de produção: `https://partnerhubapi.stone.com.br`
+  - URL base de produção: `https://partnerhubapi..com.br`
   - URL base de sandbox/homologação (se disponível)
 
 ### 2. Documentação Técnica
-- Acesso completo à documentação da API: https://partnerhubapi.stone.com.br/reference
+- Acesso completo à documentação da API: https://partnerhubapi..com.br/reference
 - Exemplos de payloads para criação de lojista
 - Códigos de erro e suas descrições
 - Rate limits da API
@@ -35,34 +35,34 @@ Para viabilizar a implementação da integração com o Partner Hub da Stone, vo
 ### 6. Suporte Técnico
 - Canal de suporte para dúvidas técnicas durante a integração
 - SLA de resposta
-- Contato técnico da Stone
+- Contato técnico da 
 
 ---
 
 ## Estrutura Implementada
 
-A integração foi criada no módulo `app/stone/` com:
+A integração foi criada no módulo `app//` com:
 
 ### Arquivos criados:
-- `app/clients/stone.py` - Cliente HTTP para Partner Hub API
-- `app/stone/schemas.py` - Modelos Pydantic para request/response
-- `app/stone/routes.py` - Endpoints FastAPI
+- `app/clients/.py` - Cliente HTTP para Partner Hub API
+- `app//schemas.py` - Modelos Pydantic para request/response
+- `app//routes.py` - Endpoints FastAPI
 
 ### Endpoints disponíveis:
-- `POST /stone/merchants` - Criar novo lojista
-- `GET /stone/merchants` - Listar lojistas (com paginação)
-- `GET /stone/merchants/{stone_code}` - Obter detalhes de um lojista
+- `POST //merchants` - Criar novo lojista
+- `GET //merchants` - Listar lojistas (com paginação)
+- `GET //merchants/{_code}` - Obter detalhes de um lojista
 
 ### Variáveis de ambiente necessárias:
 ```bash
-STONE_BASE_URL=https://partnerhubapi.stone.com.br
-STONE_API_KEY=seu_token_aqui
+_BASE_URL=https://partnerhubapi..com.br
+_API_KEY=seu_token_aqui
 ```
 
 ### Próximos passos após receber as credenciais:
 1. Adicionar as variáveis no arquivo `.env`
-2. Validar os schemas com exemplos reais da documentação Stone
+2. Validar os schemas com exemplos reais da documentação 
 3. Implementar testes com dados de sandbox
 4. Ajustar campos obrigatórios/opcionais conforme documentação
-5. Implementar tratamento de erros específicos da Stone
+5. Implementar tratamento de erros específicos da 
 6. Adicionar webhooks se disponível
